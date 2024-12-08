@@ -1,11 +1,12 @@
 from datetime import datetime
-from typing import Optional
+from typing import Optional, List
 from pydantic import BaseModel
 
 
 class SandwichBase(BaseModel):
     sandwich_name: str
     price: float
+    id: int
 
 
 class SandwichCreate(SandwichBase):
@@ -20,8 +21,8 @@ class SandwichUpdate(BaseModel):
 class Sandwich(SandwichBase):
     id: int
 
-    class ConfigDict:
-        from_attributes = True
+    class Config:
+        orm_mode = True
 
 
 class ResourceBase(BaseModel):
@@ -69,11 +70,14 @@ class Recipe(RecipeBase):
 
 class OrderDetailBase(BaseModel):
     amount: int
+    id: int
+    order_id: int
+    sandwich: SandwichBase
 
 
 class OrderDetailCreate(OrderDetailBase):
-    order_id: int
-    sandwich_id: int
+    pass
+
 
 class OrderDetailUpdate(BaseModel):
     order_id: Optional[int] = None
@@ -96,7 +100,7 @@ class OrderBase(BaseModel):
 
 
 class OrderCreate(OrderBase):
-    pass
+    order_details: List[OrderDetailBase]
 
 
 class OrderUpdate(BaseModel):
@@ -107,7 +111,7 @@ class OrderUpdate(BaseModel):
 class Order(OrderBase):
     id: int
     order_date: Optional[datetime] = None
-    order_details: list[OrderDetail] = None
+    order_details: List[OrderDetailBase]
 
-    class ConfigDict:
-        from_attributes = True
+    class Config:
+        orm_mode = True
