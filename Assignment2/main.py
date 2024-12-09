@@ -9,6 +9,8 @@ recipes = data.recipes
 sandwich_maker_instance = SandwichMaker(resources)
 cashier_instance = Cashier()
 
+# Main functions
+
 def main():
     while True:
         sandwich_size = input("What size sandwich would you like? (small/medium/large) or type 'end' to exit: ").lower()
@@ -20,8 +22,8 @@ def main():
         if sandwich_size in recipes:
             cost = recipes[sandwich_size]["cost"]
             print(f"The cost of a {sandwich_size} sandwich is ${cost:.2f}.")
-            
             coins = cashier_instance.process_coins()
+
             if cashier_instance.transaction_result(coins, cost):
                 ingredients = recipes[sandwich_size]["ingredients"]
                 if sandwich_maker_instance.check_resources(ingredients):
