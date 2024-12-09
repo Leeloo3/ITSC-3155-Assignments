@@ -21,7 +21,8 @@ def main():
             cost = recipes[sandwich_size]["cost"]
             print(f"The cost of a {sandwich_size} sandwich is ${cost:.2f}.")
             
-            if cashier_instance.transaction_result(cost):
+            coins = cashier_instance.process_coins()
+            if cashier_instance.transaction_result(coins, cost):
                 ingredients = recipes[sandwich_size]["ingredients"]
                 if sandwich_maker_instance.check_resources(ingredients):
                     sandwich_maker_instance.make_sandwich(sandwich_size, ingredients)
