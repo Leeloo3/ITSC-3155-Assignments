@@ -60,10 +60,7 @@ class SandwichMachine:
         total += int(input("how many nickels?: ")) * 0.05
         return total
 
-    def transaction_result(self, sandwich_size):
-        cost = recipes[sandwich_size]["cost"]
-        print(f"The cost is ${cost:.2f}")
-        coins = self.process_coins()
+    def transaction_result(self, coins, cost):
         if coins >= cost:
             change = coins - cost
             if change > 0:
@@ -93,5 +90,8 @@ while True:
     elif choice in recipes:
         ingredients = recipes[choice]["ingredients"]
         if machine.check_resources(ingredients):
-            if machine.transaction_result(choice):
+            cost = recipes[choice]["cost"]
+            print(f"The cost is ${cost:.2f}")
+            coins = machine.process_coins()
+            if machine.transaction_result(coins, cost):
                 machine.make_sandwich(choice, ingredients)
